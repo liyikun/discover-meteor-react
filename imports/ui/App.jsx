@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PostsList from './PostsList.jsx'
-
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 
 
 // 不要在App前面添加 var
 export default class App extends Component {
 
+
+
     render() {
+
         return (
             <div className="container">
                 <header className="navbar navbar-default" role="navigation">
@@ -16,11 +19,18 @@ export default class App extends Component {
                     </div>
                 </header>
                 <div>
-                   <PostsList />
+                    <ReactCSSTransitionGroup component="div"  transitionName="example"  transitionEnterTimeout={500}  transitionLeaveTimeout={300}
+                    >
+                      {React.cloneElement(this.props.children, {
+                          key: this.props.location.pathname
+                      })}
+                    </ReactCSSTransitionGroup>
                 </div>
             </div>
 
         );
     }
 }
+
+
 

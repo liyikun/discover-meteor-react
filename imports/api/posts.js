@@ -8,4 +8,9 @@ if (Meteor.isServer) {
     Meteor.publish('allposts', function postsPublication() {
         return Posts.find();
     });
+
+    Meteor.publish('onepost',function onepostPublication(postid){
+        return Posts.find({_id:postid});
+    })
+
 }
