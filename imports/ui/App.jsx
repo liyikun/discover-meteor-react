@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import PostsList from './PostsList.jsx'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
+import { Link } from 'react-router'
+import AccountsUIWrapper from './AccountsUIWrapper.jsx';
+import Errorslist from '../tool/Errors.jsx';
 
 
 // 不要在App前面添加 var
@@ -15,16 +17,20 @@ export default class App extends Component {
             <div className="container">
                 <header className="navbar navbar-default" role="navigation">
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="/">Microscope</a>
+                        <Link className="navbar-brand" to={'/'}>Microscope</Link>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="nav navbar-nav">
+                            <li><Link to={"/submit"}>Submit Post</Link></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <AccountsUIWrapper/>
+                        </ul>
                     </div>
                 </header>
-                <div>
-                    <ReactCSSTransitionGroup component="div"  transitionName="example"  transitionEnterTimeout={500}  transitionLeaveTimeout={300}
-                    >
-                      {React.cloneElement(this.props.children, {
-                          key: this.props.location.pathname
-                      })}
-                    </ReactCSSTransitionGroup>
+                <Errorslist/>
+                <div id="main" class="row-fluid">
+                    {this.props.children}
                 </div>
             </div>
 

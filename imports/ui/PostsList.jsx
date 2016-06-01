@@ -1,27 +1,36 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component,PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Posts } from '../api/posts.js';
 import PostItem from './PostItem.jsx'
 
 
-class PostsList extends Component{
+export default class PostsList extends Component{
+
 
 
     renderTasks(){
         return this.props.posts.map((post)=>(
-            <PostItem key={post._id} post={post}/>
+                <PostItem key={post._id} post={post}/>
         ));
     }
 
 
 
+
     render(){
-        return (
-            <div className="posts">
-            {this.renderTasks()}
-            </div>
-        );
+        if(this.props.loading||!this.props.posts) {
+            return (<p>Loading...</p>);
+        }else {
+            console.log("this is list");
+            //console.log(Posts.find({}).fetch());
+            return (
+                <div className="posts">
+                    {this.renderTasks()}
+                </div>
+            );
+
+        }
     }
 
 
@@ -32,9 +41,11 @@ PostsList.propTypes={
 };
 
 export default createContainer(()=>{
-    Meteor.subscribe('allposts');
+    var allpost=Meteor.subscribe('allposts');
 
-    return{
-        posts:Posts.find({}).fetch(),
+    console.log(" list "+Posts.find().count()+"this is allposts ");
+    return {
+        loading: !(allpost.ready()),
+        posts:Posts.find({},{sort: {createAt: -1}}).fetch(),
     };
-},PostsList);
+}, PostsList);
