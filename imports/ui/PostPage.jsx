@@ -19,12 +19,13 @@ export default class PostPage extends Component{
             console.log(postedit+"postedit")
             if(postedit){
                 postinfo=(<p>
-                    submitted by{this.props.post.username}
-                    <Link to={`/post/${this.props.post._id}/edit`}>edit</Link>
+                    submitted by {this.props.post.username} &nbsp;&nbsp;commentsCount:{this.props.post.commentsCount}&nbsp;&nbsp;
+                    <Link to={`/post/${this.props.post._id}/edit`}>edit</Link>&nbsp;&nbsp;
+                    <Link to={`/post/${this.props.post._id}`}>comments</Link>
                 </p>)
             }else{
                 postinfo=(<p>
-                    submitted by{this.props.post.username}
+                    submitted by {this.props.post.username}&nbsp;&nbsp;commentsCount:{this.props.post.commentsCount}&nbsp;
                 </p>)
             }
 

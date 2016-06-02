@@ -8,3 +8,5 @@ if (Meteor.isClient) {
 
     //Errors.insert({message:"error"});
 }
+
+

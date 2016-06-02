@@ -31,6 +31,8 @@ Meteor.methods({
 
         post.username=Meteor.users.findOne(this.userId).username;
 
+        post.commentsCount=0;
+
         postid=Posts.insert(post);
 
         return postid;
