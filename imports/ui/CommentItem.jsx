@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import {Comments} from '../api/comments.js'
 import { Posts } from '../api/posts.js';
 import Commentinfo from './Commentinfo.jsx'
-
+import {Notifications} from '../api/notifications.js'
 
 export default class CommentItem extends Component{
 
@@ -20,21 +20,50 @@ export default class CommentItem extends Component{
 
         const body=ReactDOM.findDOMNode(this.refs.body).value.trim();
         const postId=Posts.findOne()._id;
-        console.log(" body "+body+" postId "+postId);
+        const userId=Posts.findOne().owner;
+
+
+
+     //   console.log(" body "+body+" postId "+postId);
 
 
         var commentsText={
             body,
             postId
-        }
+        };
 
-        Meteor.call('commentltem.insert',commentsText,function(error){
+        Meteor.call('commentltem.insert',commentsText,function(error,result) {
+            if (error && error.error === "not-authorized") {
+                Errors.insert({message: "Please log in!"})
+                throwError(error.reason);
+            }
+            commentid=result.commentid;
+
+        });
+
+        var notifications={
+            userId,
+            postId,
+            commentid,
+            commenterName:Meteor.user().username,
+        };
+
+        console.log("notifications  "+notifications.userId+" "+notifications.postId+" "+notifications.commentid+" "+notifications.commenterName);
+
+        Meteor.call('notifications.insert',notifications,function(error,result){
             if (error&&error.error==="not-authorized"){
                 Errors.insert({message:"Please log in!"})
                 throwError(error.reason);
             }
 
+            console.log("result"+ result.notificationid);
+
+
         });
+
+
+
+
 
     }
 
@@ -77,8 +106,8 @@ export default createContainer(()=>{
     const postid=Posts.findOne()._id;
 
     var subComment=Meteor.subscribe('postcomments',postid);
-   console.log(" postid "+postid);
-   console.log("Comments item  "+Comments.find({postId:postid}).fetch());
+ //  console.log(" postid "+postid);
+  // console.log("Comments item  "+Comments.find({postId:postid}).fetch());
     var data={
         loading: !(subComment.ready()),
         comments:Comments.find({postId:postid}).fetch()

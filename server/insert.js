@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Posts } from '../imports/api/posts.js';
 import {Comments} from '../imports/api/comments.js'
+import {Notifications} from '../imports/api/notifications.js'
 
 if (Posts.find().count() === 0) {
     Posts.insert({
@@ -27,4 +28,14 @@ if(Comments.find().count()===0){
         submittedText: new Date(),
         body: 'You sure can Tom!'
     });
+}
+
+if(Notifications.find().count()===0){
+    Notifications.insert({
+        userId:'String',
+        postId:'String',
+        commentid:'String',
+        commenterName:'String',
+        read:true
+    })
 }

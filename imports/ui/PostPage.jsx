@@ -13,10 +13,10 @@ export default class PostPage extends Component{
         if(this.props.loading||!this.props.post) {
            return (<p>Loading...</p>);
        }else {
-            console.log(this.props.post);
+           // console.log(this.props.post);
 
             var postedit=Meteor.userId()==this.props.post.owner;
-            console.log(postedit+"postedit")
+          //  console.log(postedit+"postedit")
             if(postedit){
                 postinfo=(<p>
                     submitted by {this.props.post.username} &nbsp;&nbsp;commentsCount:{this.props.post.commentsCount}&nbsp;&nbsp;

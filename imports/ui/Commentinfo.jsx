@@ -9,7 +9,7 @@ export default class Commentinfo extends Component {
     }
 
     render() {
-        console.log("haha");
+      //  console.log("haha");
         return (
 
             <li>

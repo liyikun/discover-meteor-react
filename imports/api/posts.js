@@ -68,7 +68,7 @@ Meteor.methods({
 
         var currentPostId=post.id;
 
-        console.log("current id"+currentPostId);
+       // console.log("current id"+currentPostId);
 
 
         var updatepost={

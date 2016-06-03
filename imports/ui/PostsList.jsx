@@ -22,7 +22,7 @@ export default class PostsList extends Component{
         if(this.props.loading||!this.props.posts) {
             return (<p>Loading...</p>);
         }else {
-            console.log("this is list");
+         //   console.log("this is list");
             //console.log(Posts.find({}).fetch());
             return (
                 <div className="posts">
@@ -43,7 +43,7 @@ PostsList.propTypes={
 export default createContainer(()=>{
     var allpost=Meteor.subscribe('allposts');
 
-    console.log(" list "+Posts.find().count()+"this is allposts ");
+    //console.log(" list "+Posts.find().count()+"this is allposts ");
     return {
         loading: !(allpost.ready()),
         posts:Posts.find({},{sort: {createAt: -1}}).fetch(),
