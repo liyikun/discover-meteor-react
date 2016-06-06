@@ -17,9 +17,10 @@ export default class Notificationspage extends Component{
     }
 
     notificationItem(){
-        if(this.props.count){
-            return this.props.notifications.map((notifications)=>{
-                <NotificationItem key={notifications._id} notifications={notifications}/>})
+        console.log(this.props.count+"  "+(this.props.count>0)+" ?");
+        if(this.props.count>0){
+            return this.props.notifications.map((notifications)=>(
+                <NotificationItem key={notifications._id} notifications={notifications}/>))
         }else{
             return(
                 <li><span>No Notifications</span></li>
@@ -27,23 +28,13 @@ export default class Notificationspage extends Component{
         }
     }
 
-    removeNotifications(event){
-        event.preventDefault()
 
-        Meteor.call('notifications.update',function(error) {
-                if (error && error.error === "not-authorized") {
-                    Errors.insert({message: "Please log in!"})
-                    throwError(error.reason);
-                }
-            }
-            )
-    }
 
 
     render(){
         return(
         <div>
-        <Link to={'#'} className="dropdown-toggle" data-toggle="dropdown" onClickCapture={this.removeNotifications.bind(this)}>
+        <Link to={'#'} className="dropdown-toggle" data-toggle="dropdown" >
             Notifications
             {this.notificationCount()}
             <b className="caret"></b>

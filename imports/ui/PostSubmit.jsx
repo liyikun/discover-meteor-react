@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { Posts } from '../api/posts.js';
 import { Meteor } from 'meteor/meteor';
 import { Errors } from '../api/errors.js';
-
+import { withRouter } from 'react-router'
 
 export default class PostSubmit extends Component{
+
 
     handSubmit(event){
         event.preventDefault();
@@ -20,6 +21,13 @@ export default class PostSubmit extends Component{
             title,
          }
 
+
+       // var result=Meteor.call('posts.insert',post)
+       // console.log("result is"+result);
+
+        let x;
+
+
         Meteor.call('posts.insert',post,function(error,result){
             if (error&&error.error==="not-authorized"){
                 Errors.insert({message:"Please log in!"})
@@ -29,11 +37,12 @@ export default class PostSubmit extends Component{
             if(result.postExists){
                 Errors.insert({message:"Post has been！"})
             }
+            x=result.insertid;
+
         });
 
-
-
-    }
+        Meteor.setTimeout(()=>{this.props.router.replace(`/post/${x}`)}, 2000)
+            }
 
 
 
@@ -56,3 +65,5 @@ export default class PostSubmit extends Component{
         )
     }
 }
+
+export default withRouter(PostSubmit)

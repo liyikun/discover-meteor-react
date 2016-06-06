@@ -3,7 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { Posts } from '../api/posts.js';
-
+import { withRouter } from 'react-router'
 
 export default class PostEdit extends Component{
 
@@ -58,6 +58,8 @@ export default class PostEdit extends Component{
             }
 
         });
+
+        this.props.router.replace('/')
     }
 
     render(){
@@ -87,5 +89,5 @@ export default class PostEdit extends Component{
 
 }
 
-
+export default withRouter(PostEdit)
 

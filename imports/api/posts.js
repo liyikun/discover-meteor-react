@@ -2,6 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check';
 
+
 export const Posts = new Mongo.Collection('posts');
 
 Meteor.methods({
@@ -33,9 +34,16 @@ Meteor.methods({
 
         post.commentsCount=0;
 
+        post.upvoters=[];
+
+        post.votes= 0;
+
         postid=Posts.insert(post);
 
-        return postid;
+        return {
+            insertid:postid
+        }
+
     },
 
     'posts.remove'(postid){
@@ -76,12 +84,39 @@ Meteor.methods({
             title:post.title
         }
 
-        uppostid=Posts.update(currentPostId,{$set:updatepost})
+        var uppostid=Posts.update(currentPostId,{$set:updatepost})
 
         return uppostid;
     },
 
 
+    'upvote'(postId) {
+        check(this.userId, String);
+        check(postId, String);
+        var post = Posts.findOne(postId);
+        if (!post)
+            throw new Meteor.Error('invalid', 'Post not found');
+        if (_.include(post.upvoters, this.userId))
+            throw new Meteor.Error('invalid', 'Already upvoted this post');
+        Posts.update(post._id, {
+            $addToSet: {upvoters: this.userId},
+            $inc: {votes: 1}
+        });
+    },
+
+    'devote'(postId) {
+        check(this.userId, String);
+        check(postId, String);
+        var post = Posts.findOne(postId);
+        if (!post)
+            throw new Meteor.Error('invalid', 'Post not found');
+        if (!_.include(post.upvoters, this.userId))
+            throw new Meteor.Error('invalid', 'Already upvoted this post');
+        Posts.update(post._id, {
+            $pull: {upvoters:this.userId},
+            $inc: {votes:-1}
+        });
+    },
 
 
 

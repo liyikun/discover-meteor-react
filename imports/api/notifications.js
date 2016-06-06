@@ -31,17 +31,14 @@ Meteor.methods({
     },
 
 
-'notifications.update'(){
+'notifications.update'(commentid){
 
     if(!this.userId){
         throw new Meteor.Error('not-authorized');
     }
 
-    console.log("find now "+Notifications.find({userId:this.userId}).fetch());
 
-    updateresult=Notifications.update({userId:this.userId},{$set:{'read':true}});
-
-    console.log("find afer "+Notifications.find({userId:this.userId}).fetch());
+    updateresult=Notifications.update({_id:commentid},{$set:{'read':true}});
 
     return updateresult;
 },
