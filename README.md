@@ -1,7 +1,7 @@
-# discover-meteor-react
-discover-meteor-react
+# Discover-meteor-react
+Discover-meteor-react
 
-run:
+Run:
 
 npm install
 
